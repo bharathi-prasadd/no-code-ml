@@ -17,6 +17,18 @@ class Widget(QWidget):
         self.ui.pushButton_selectFolder.clicked.connect(self.get_dir)
         self.ui.pushButton_details.clicked.connect(self.details)
         self.ui.pushButton_images.clicked.connect(self.display)
+        self.ui.lineEdit_path.setReadOnly(True)
+        self.ui.lineEdit_weights.setReadOnly(True)
+        self.ui.pushButton_weights.clicked.connect(self.get_weights)
+
+    @Slot()
+    def get_weights(self):
+        options = QFileDialog.ReadOnly
+        weight_path, _ = QFileDialog.getOpenFileName(
+            self, "Select Weights", "", options=options
+        )
+        if weight_path:
+            self.ui.lineEdit_weights.setText(weight_path)
 
     @Slot()
     def get_dir(self):
@@ -28,13 +40,13 @@ class Widget(QWidget):
             | QFileDialog.Option.DontResolveSymlinks,
         )
         if dir_path:
-            self.ui.lineEdit_Path.setText(dir_path)
+            self.ui.lineEdit_path.setText(dir_path)
 
     @Slot()
     def details(self):
         try:
             self.ui.textBrowser_details.clear()
-            util.details(self.ui.lineEdit_Path.text(), self.ui.textBrowser_details)
+            util.details(self.ui.lineEdit_path.text(), self.ui.textBrowser_details)
         except FileNotFoundError:
             # If no directory is selected, show a message to the user
             self.file_error()
@@ -43,7 +55,7 @@ class Widget(QWidget):
     def display(self):
         try:
             imgsample = ImageSample()
-            path: str = self.ui.lineEdit_Path.text()
+            path: str = self.ui.lineEdit_path.text()
             dirs: list[str] = os.listdir(path)
             for dir in dirs:
                 with os.scandir(os.path.join(path, dir)) as enteries:
