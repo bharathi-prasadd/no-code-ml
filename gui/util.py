@@ -1,7 +1,8 @@
 import os
 from typing import Generator
-from PySide6.QtWidgets import QTextBrowser, QGridLayout, QLabel
+from PySide6.QtWidgets import QTextBrowser, QGridLayout, QLabel, QMessageBox
 from PySide6.QtGui import QPixmap
+import torch.cuda as cuda
 
 
 def details(base_dir: str, textField: QTextBrowser) -> None:
@@ -41,6 +42,5 @@ def get_images(base_dir: str) -> Generator[str, None, None]:
                 break
 
 
-if __name__ == "__main__":
-    for img in get_images("/home/rumi/projects/miniproject/test_imgs"):
-        print(img)
+def check_cuda():
+    return cuda.is_available()

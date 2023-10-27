@@ -20,6 +20,7 @@ class Widget(QWidget):
         self.ui.lineEdit_path.setReadOnly(True)
         self.ui.lineEdit_weights.setReadOnly(True)
         self.ui.pushButton_weights.clicked.connect(self.get_weights)
+        self.ui.comboBox_device.currentIndexChanged.connect(self.check_cuda)
 
     @Slot()
     def get_weights(self):
@@ -49,7 +50,12 @@ class Widget(QWidget):
             util.details(self.ui.lineEdit_path.text(), self.ui.textBrowser_details)
         except FileNotFoundError:
             # If no directory is selected, show a message to the user
-            self.file_error()
+            QMessageBox.critical(
+                self,
+                "Error",
+                "Choose proper directory",
+                QMessageBox.Ok,
+            )
 
     @Slot()
     def display(self):
@@ -64,15 +70,25 @@ class Widget(QWidget):
                         break
             imgsample.setup_ui()
         except FileNotFoundError:
-            self.file_error()
+            util.file_error()
+            QMessageBox.critical(
+                self,
+                "Error",
+                "Choose proper directory",
+                QMessageBox.Ok,
+            )
 
-    def file_error(self):
-        QMessageBox.critical(
-            self,
-            "Error",
-            "Choose proper directory",
-            QMessageBox.Ok,
-        )
+    @Slot()
+    def check_cuda(self):
+        if self.ui.comboBox_device.currentText() == "GPU":
+            if not util.check_cuda():
+                self.ui.comboBox_device.setCurrentText("CPU")
+                QMessageBox.critical(
+                    self,
+                    "Error",
+                    "GPU not available,Defaulting to CPU",
+                    QMessageBox.Ok,
+                )
 
 
 if __name__ == "__main__":
