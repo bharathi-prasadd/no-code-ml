@@ -24,8 +24,163 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,1,0,1">
+    <widget class="QLabel" name="label_title">
+     <property name="font">
+      <font>
+       <family>Roboto Medium</family>
+       <pointsize>36</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>No Code ML</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,1,0,1,0">
+     <item row="1" column="4">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="spinBox_3">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>15</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_lr">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Learning Rate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox">
+         <property name="minimum">
+          <double>0.050000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.050000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_device">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Device</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QComboBox" name="comboBox_device">
+         <item>
+          <property name="text">
+           <string>...</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>CPU</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GPU</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_batch">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Batch Size</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Number of Epochs</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QSpinBox" name="spinBox">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>15</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
      <item row="1" column="5">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="6">
       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0">
        <item>
         <spacer name="verticalSpacer_2">
@@ -112,8 +267,83 @@
        </item>
       </layout>
      </item>
+     <item row="1" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="3">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="4">
+      <widget class="QPushButton" name="pushButton_done">
+       <property name="font">
+        <font>
+         <family>Roboto Light</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Train</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="1">
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="lineEdit_weights">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>3</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_selectFolder">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Select Folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="pushButton_store">
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Store Weights </string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="2">
         <widget class="QComboBox" name="comboBox_model">
          <property name="sizePolicy">
@@ -155,8 +385,8 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label">
+       <item row="2" column="2">
+        <widget class="QCheckBox" name="checkBox_pretrained">
          <property name="font">
           <font>
            <family>Roboto Light</family>
@@ -164,26 +394,26 @@
           </font>
          </property>
          <property name="text">
-          <string>Number of Epochs</string>
+          <string/>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="lineEdit_path">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
            <family>Roboto Light</family>
            <pointsize>12</pointsize>
           </font>
          </property>
-         <property name="whatsThis">
-          <string>Select folder containing images. Expected Format:</string>
+         <property name="text">
+          <string>Default Weights</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -198,28 +428,28 @@
          <property name="text">
           <string>Model:</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QSpinBox" name="spinBox">
+       <item row="4" column="1">
+        <widget class="QPushButton" name="pushButton_weights">
          <property name="font">
           <font>
            <family>Roboto Light</family>
            <pointsize>12</pointsize>
           </font>
          </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>10000</number>
-         </property>
-         <property name="value">
-          <number>15</number>
+         <property name="text">
+          <string>Load Weights</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="lineEdit_store"/>
+       </item>
+       <item row="7" column="2">
         <widget class="QComboBox" name="comboBox_optimizer">
          <property name="font">
           <font>
@@ -244,7 +474,26 @@
          </item>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="lineEdit_path">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Roboto Light</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="whatsThis">
+          <string>Select folder containing images. Expected Format:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
         <widget class="QLabel" name="label_optimizer">
          <property name="font">
           <font>
@@ -260,48 +509,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_selectFolder">
-         <property name="font">
-          <font>
-           <family>Roboto Light</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Select Folder</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="2">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="1" column="3">
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="3" column="2">
-        <widget class="QLineEdit" name="lineEdit_weights">
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>3</horstretch>
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_device">
          <property name="font">
           <font>
            <family>Roboto Light</family>
@@ -309,15 +524,21 @@
           </font>
          </property>
          <property name="text">
-          <string>Device</string>
+          <string>Custom</string>
          </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_batch">
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="font">
           <font>
            <family>Roboto Light</family>
@@ -325,111 +546,11 @@
           </font>
          </property>
          <property name="text">
-          <string>Batch Size</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="pushButton_weights">
-         <property name="font">
-          <font>
-           <family>Roboto Light</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Load Weights</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox">
-         <property name="minimum">
-          <double>0.050000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.050000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QComboBox" name="comboBox_device">
-         <item>
-          <property name="text">
-           <string>...</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CPU</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>GPU</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QSpinBox" name="spinBox_3">
-         <property name="font">
-          <font>
-           <family>Roboto Light</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>10000</number>
-         </property>
-         <property name="value">
-          <number>15</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_lr">
-         <property name="font">
-          <font>
-           <family>Roboto Light</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Learning Rate</string>
+          <string> Weights</string>
          </property>
         </widget>
        </item>
       </layout>
-     </item>
-     <item row="1" column="4">
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="1" column="0">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

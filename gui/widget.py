@@ -19,8 +19,10 @@ class Widget(QWidget):
         self.ui.pushButton_images.clicked.connect(self.display)
         self.ui.lineEdit_path.setReadOnly(True)
         self.ui.lineEdit_weights.setReadOnly(True)
+        self.ui.lineEdit_store.setReadOnly(True)
         self.ui.pushButton_weights.clicked.connect(self.get_weights)
         self.ui.comboBox_device.currentIndexChanged.connect(self.check_cuda)
+        self.ui.checkBox_pretrained.stateChanged.connect(self.checkbox)
 
     @Slot()
     def get_weights(self):
@@ -30,6 +32,14 @@ class Widget(QWidget):
         )
         if weight_path:
             self.ui.lineEdit_weights.setText(weight_path)
+        if self.ui.checkBox_pretrained.isChecked():
+            QMessageBox.warning(
+                self,
+                "Warning",
+                "Default weights option is selected, deselecting",
+                QMessageBox.Ok,
+            )
+            self.ui.checkBox_pretrained.setChecked(False)
 
     @Slot()
     def get_dir(self):
@@ -89,6 +99,17 @@ class Widget(QWidget):
                     "GPU not available,Defaulting to CPU",
                     QMessageBox.Ok,
                 )
+
+    @Slot()
+    def checkbox(self):
+        if self.ui.checkBox_pretrained.isChecked() and self.ui.lineEdit_weights.text():
+            QMessageBox.warning(
+                self,
+                "Warning",
+                "Weight path already provided. Clearing",
+                QMessageBox.Ok,
+            )
+            self.ui.lineEdit_weights.setText("")
 
 
 if __name__ == "__main__":
