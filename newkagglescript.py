@@ -2,12 +2,8 @@
 import numpy as np
 import pandas as pd
 
-from sklearn.metrics import f1_score # just for validation
+from sklearn.metrics import f1_score  # just for validation
 
-import os
-for dirname, _, filenames in os.walk('/kaggle/input'):
-    for filename in filenames:
-        print(os.path.join(dirname, filename))
 
 import torch
 import torchvision
@@ -19,6 +15,7 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 def dynamic_plot(train_losses, train_accuracies, fig, axes):
     if fig is None or axes is None:
@@ -43,49 +40,48 @@ def dynamic_plot(train_losses, train_accuracies, fig, axes):
     plt.show()
 
 
-
 def train_image_classification(model, trainloader, **kwargs):
     defaults = {
-        'num_epochs': 10,
-        'learning_rate': 0.001,
-        'plot_interval':100,
-        'optimizer_name': "SGD",
-        'batch_size': 32,
-        'data_augmentation': None,
-        'weight_initialization': None,
-        'regularization': None,
-        'learning_rate_schedule': None,
-        'loss_function': "CrossEntropy",
-        'early_stopping': None,
-        'device': "cuda" if torch.cuda.is_available() else "cpu",
-        'random_seed': None,
-        'gradient_clipping': None,
-        'batch_normalization': False,
-        'dropout': None,
-        'validation_split': 0.2,
-        'class_weights': None
+        "num_epochs": 10,
+        "learning_rate": 0.001,
+        "plot_interval": 100,
+        "optimizer_name": "SGD",
+        "batch_size": 32,
+        "data_augmentation": None,
+        "weight_initialization": None,
+        "regularization": None,
+        "learning_rate_schedule": None,
+        "loss_function": "CrossEntropy",
+        "early_stopping": None,
+        "device": "cuda" if torch.cuda.is_available() else "cpu",
+        "random_seed": None,
+        "gradient_clipping": None,
+        "batch_normalization": False,
+        "dropout": None,
+        "validation_split": 0.2,
+        "class_weights": None,
     }
 
     defaults.update(kwargs)
 
-    num_epochs = defaults['num_epochs']
-    learning_rate = defaults['learning_rate']
-    plot_interval = defaults['plot_interval']
-    optimizer_name = defaults['optimizer_name']
-    batch_size = defaults['batch_size']
-    data_augmentation = defaults['data_augmentation']
-    weight_initialization = defaults['weight_initialization']
-    regularization = defaults['regularization']
-    learning_rate_schedule = defaults['learning_rate_schedule']
-    loss_function = defaults['loss_function']
-    early_stopping = defaults['early_stopping']
-    device = defaults['device']
-    random_seed = defaults['random_seed']
-    gradient_clipping = defaults['gradient_clipping']
-    batch_normalization = defaults['batch_normalization']
-    dropout = defaults['dropout']
-    validation_split = defaults['validation_split']
-    class_weights = defaults['class_weights']
+    num_epochs = defaults["num_epochs"]
+    learning_rate = defaults["learning_rate"]
+    plot_interval = defaults["plot_interval"]
+    optimizer_name = defaults["optimizer_name"]
+    batch_size = defaults["batch_size"]
+    data_augmentation = defaults["data_augmentation"]
+    weight_initialization = defaults["weight_initialization"]
+    regularization = defaults["regularization"]
+    learning_rate_schedule = defaults["learning_rate_schedule"]
+    loss_function = defaults["loss_function"]
+    early_stopping = defaults["early_stopping"]
+    device = defaults["device"]
+    random_seed = defaults["random_seed"]
+    gradient_clipping = defaults["gradient_clipping"]
+    batch_normalization = defaults["batch_normalization"]
+    dropout = defaults["dropout"]
+    validation_split = defaults["validation_split"]
+    class_weights = defaults["class_weights"]
 
     if random_seed is not None:
         torch.manual_seed(random_seed)
@@ -106,7 +102,7 @@ def train_image_classification(model, trainloader, **kwargs):
     if learning_rate_schedule == "StepLR":
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
     # Add more options for learning rate schedules as needed
-    fig, axes = None,None
+    fig, axes = None, None
 
     def calculate_accuracy(outputs, labels):
         _, predicted = torch.max(outputs, 1)
@@ -135,23 +131,27 @@ def train_image_classification(model, trainloader, **kwargs):
             running_loss += loss.item()
             running_accuracy += calculate_accuracy(outputs, labels)
 
-
-            #if i % plot_interval == (plot_interval - 1):
+            # if i % plot_interval == (plot_interval - 1):
             avg_loss = running_loss / plot_interval
             avg_accuracy = running_accuracy / plot_interval
             train_losses.append(avg_loss)
             train_accuracies.append(avg_accuracy)
-            dynamic_plot(train_losses, train_accuracies,fig,axes)
+            dynamic_plot(train_losses, train_accuracies, fig, axes)
             running_loss = 0.0
             running_accuracy = 0.0
 
-            print(f"Epoch {epoch+1}/{num_epochs}, Loss: {avg_loss:.4f}, Accuracy: {avg_accuracy:.4f}")
+            print(
+                f"Epoch {epoch+1}/{num_epochs}, Loss: {avg_loss:.4f}, Accuracy: {avg_accuracy:.4f}"
+            )
 
         if learning_rate_schedule is not None:
             scheduler.step()
 
     print("Training finished!")
+
+
 # Number of Classes to be taken from the user for optimum training.. through gui or automatically from the image dataset
+
 
 class ResNet18(nn.Module):
     def __init__(self, num_classes=2):
@@ -163,6 +163,7 @@ class ResNet18(nn.Module):
     def forward(self, x):
         return self.resnet18(x)
 
+
 class VGG16(nn.Module):
     def __init__(self, num_classes=10):
         super(VGG16, self).__init__()
@@ -173,6 +174,7 @@ class VGG16(nn.Module):
     def forward(self, x):
         return self.vgg16(x)
 
+
 class MobileNetV2(nn.Module):
     def __init__(self, num_classes=10):
         super(MobileNetV2, self).__init__()
@@ -182,6 +184,7 @@ class MobileNetV2(nn.Module):
 
     def forward(self, x):
         return self.mobilenet_v2(x)
+
 
 class DenseNet121(nn.Module):
     def __init__(self, num_classes=10):
@@ -194,14 +197,17 @@ class DenseNet121(nn.Module):
     def forward(self, x):
         return self.densenet(x)
 
-transform = transforms.Compose([
-                                transforms.Resize(256),
-                                transforms.CenterCrop(224),
-                                transforms.ToTensor(),
-                                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-                            ])
 
-dataset = datasets.ImageFolder('/kaggle/input/leukemia-dataset', transform=transform)
+transform = transforms.Compose(
+    [
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ]
+)
+
+dataset = datasets.ImageFolder("/kaggle/input/leukemia-dataset", transform=transform)
 train_ratio = 0.66
 test_ratio = 1.0 - train_ratio
 
@@ -222,24 +228,32 @@ mobilenet_v2 = MobileNetV2()
 
 densenet121 = DenseNet121()
 
-densenet121=models.densenet121(weights=None)
+densenet121 = models.densenet121(weights=None)
 
-print('resnet18')
-train_image_classification(resnet18, train_loader, num_epochs=4, learning_rate=0.001, optimizer_name="Adam",device='cuda:0')
+print("resnet18")
+train_image_classification(
+    resnet18,
+    train_loader,
+    num_epochs=4,
+    learning_rate=0.001,
+    optimizer_name="Adam",
+    device="cuda:0",
+)
 
 
-save_path = '/kaggle/working/resnet18_trained_model.pth'
+save_path = "/kaggle/working/resnet18_trained_model.pth"
 torch.save(resnet18.state_dict(), save_path)
 print(f"Trained model saved at {save_path}")
 
-#----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 
 loaded_model = ResNet18()  # Define the same architecture without pretraining
 loaded_model.load_state_dict(torch.load(save_path))
 loaded_model.eval()
 
-#----------------------------------------------------------------------------------
-#----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
+
 
 def evaluate_model(model, dataloader, device):
     model.eval()
@@ -266,10 +280,15 @@ def evaluate_model(model, dataloader, device):
             all_predicted.extend(predicted_np)
 
     accuracy = correct / total
-    f1 = f1_score(all_labels, all_predicted, average='macro')  # You can use 'micro', 'macro', or 'weighted' for average
+    f1 = f1_score(
+        all_labels, all_predicted, average="macro"
+    )  # You can use 'micro', 'macro', or 'weighted' for average
 
     return accuracy, f1
 
-test_accuracy, test_f1_score = evaluate_model(loaded_model, test_loader, device='cuda:0')
+
+test_accuracy, test_f1_score = evaluate_model(
+    loaded_model, test_loader, device="cuda:0"
+)
 print(f"Test Accuracy: {test_accuracy:.4f}")
 print(f"Test F1 Score: {test_f1_score:.4f}")
