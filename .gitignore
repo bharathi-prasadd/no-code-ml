@@ -10,3 +10,7 @@ venv/
 
 #Qt user files
 *.user
+
+dataset/
+
+*.autosave

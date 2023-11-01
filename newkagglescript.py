@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 import numpy as np
-import pandas as pd
-
-from sklearn.metrics import f1_score  # just for validation
 
 
 import torch
@@ -131,12 +128,11 @@ def train_image_classification(model, trainloader, **kwargs):
             running_loss += loss.item()
             running_accuracy += calculate_accuracy(outputs, labels)
 
-            # if i % plot_interval == (plot_interval - 1):
             avg_loss = running_loss / plot_interval
             avg_accuracy = running_accuracy / plot_interval
             train_losses.append(avg_loss)
             train_accuracies.append(avg_accuracy)
-            dynamic_plot(train_losses, train_accuracies, fig, axes)
+            # dynamic_plot(train_losses, train_accuracies, fig, axes)
             running_loss = 0.0
             running_accuracy = 0.0
 
@@ -151,6 +147,13 @@ def train_image_classification(model, trainloader, **kwargs):
 
 
 # Number of Classes to be taken from the user for optimum training.. through gui or automatically from the image dataset
+
+
+class ResNet(nn.Module):
+    def __init__(self, model_name):
+        model = getattr(models, "model_name")
+        model(args)
+        self.model.fc
 
 
 class ResNet18(nn.Module):
@@ -207,7 +210,7 @@ transform = transforms.Compose(
     ]
 )
 
-dataset = datasets.ImageFolder("/kaggle/input/leukemia-dataset", transform=transform)
+dataset = datasets.ImageFolder("dataset", transform=transform)
 train_ratio = 0.66
 test_ratio = 1.0 - train_ratio
 
@@ -270,25 +273,3 @@ def evaluate_model(model, dataloader, device):
             outputs = model(inputs)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-
-            # Convert labels and predictions to numpy arrays
-            labels_np = labels.cpu().numpy()
-            predicted_np = predicted.cpu().numpy()
-
-            all_labels.extend(labels_np)
-            all_predicted.extend(predicted_np)
-
-    accuracy = correct / total
-    f1 = f1_score(
-        all_labels, all_predicted, average="macro"
-    )  # You can use 'micro', 'macro', or 'weighted' for average
-
-    return accuracy, f1
-
-
-test_accuracy, test_f1_score = evaluate_model(
-    loaded_model, test_loader, device="cuda:0"
-)
-print(f"Test Accuracy: {test_accuracy:.4f}")
-print(f"Test F1 Score: {test_f1_score:.4f}")
