@@ -313,6 +313,12 @@ class Ui_Widget(object):
 
         self.gridLayout.addItem(self.horizontalSpacer_4, 1, 7, 1, 1)
 
+        self.pushButton_eval = QPushButton(Widget)
+        self.pushButton_eval.setObjectName(u"pushButton_eval")
+        self.pushButton_eval.setFont(font1)
+
+        self.gridLayout.addWidget(self.pushButton_eval, 2, 6, 1, 1)
+
 
         self.verticalLayout_2.addLayout(self.gridLayout)
 
@@ -355,5 +361,6 @@ class Ui_Widget(object):
         self.pushButton_details.setText(QCoreApplication.translate("Widget", u"Display Details", None))
         self.pushButton_images.setText(QCoreApplication.translate("Widget", u"Display Image Samples", None))
         self.pushButton_train.setText(QCoreApplication.translate("Widget", u"Train", None))
+        self.pushButton_eval.setText(QCoreApplication.translate("Widget", u"Evaluate", None))
     # retranslateUi
 

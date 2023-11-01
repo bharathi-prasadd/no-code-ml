@@ -8,6 +8,7 @@ from ui_form import Ui_Widget
 import util
 from QtToTorch import QtToTorch
 from torch.utils.data import DataLoader
+from evaluate import EvalPopUp
 
 
 class Widget(QWidget):
@@ -24,6 +25,7 @@ class Widget(QWidget):
         self.ui.pushButton_images.clicked.connect(self.display)
         self.ui.pushButton_weights.clicked.connect(self.get_weights)
         self.ui.pushButton_store.clicked.connect(self.store_weights)
+        self.ui.pushButton_eval.clicked.connect(self.eval)
         self.ui.comboBox_device.currentIndexChanged.connect(self.check_cuda)
         self.ui.checkBox_pretrained.stateChanged.connect(self.checkbox)
         self.ui.pushButton_train.clicked.connect(self.train)
@@ -36,14 +38,14 @@ class Widget(QWidget):
         )
         if weight_path:
             self.ui.lineEdit_weights.setText(weight_path)
-        if self.ui.checkBox_pretrained.isChecked():
-            QMessageBox.warning(
-                self,
-                "Warning",
-                "Default weights option is selected, deselecting",
-                QMessageBox.Ok,
-            )
-            self.ui.checkBox_pretrained.setChecked(False)
+            if self.ui.checkBox_pretrained.isChecked():
+                QMessageBox.warning(
+                    self,
+                    "Warning",
+                    "Default weights option is selected, deselecting",
+                    QMessageBox.Ok,
+                )
+                self.ui.checkBox_pretrained.setChecked(False)
 
     @Slot()
     def store_weights(self):
@@ -149,6 +151,11 @@ class Widget(QWidget):
         num_epochs: int = self.ui.spinBox_epochs.value()
         save_path: str = self.ui.lineEdit_store.text()
         torch.train(train, num_epochs, save_path, num_classes)
+
+    @Slot()
+    def eval(self):
+        popup = EvalPopUp()
+        popup.setUpPopUp()
 
 
 if __name__ == "__main__":

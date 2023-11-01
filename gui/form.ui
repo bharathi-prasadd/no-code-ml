@@ -594,6 +594,19 @@
        </property>
       </spacer>
      </item>
+     <item row="2" column="6">
+      <widget class="QPushButton" name="pushButton_eval">
+       <property name="font">
+        <font>
+         <family>Roboto Light</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Evaluate</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
