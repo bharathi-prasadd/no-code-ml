@@ -29,18 +29,5 @@ def details(base_dir: str, textField: QTextBrowser) -> None:
         raise e
 
 
-def get_images(base_dir: str) -> Generator[str, None, None]:
-    """
-    When passed a base directory acts as a generator that gives you
-    the first file in each directory"""
-    dirs: list[str] = os.listdir(base_dir)
-
-    for dir in dirs:
-        with os.scandir(os.path.join(base_dir, dir)) as entries:
-            for entry in entries:
-                yield entry.name
-                break
-
-
 def check_cuda():
     return cuda.is_available()

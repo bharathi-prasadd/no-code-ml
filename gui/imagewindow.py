@@ -15,6 +15,8 @@ from PySide6.QtGui import QPixmap, QFont
 from PySide6.QtCore import Qt
 import os
 from typing import Generator, Union
+import matplotlib.figure
+from matplotlib.backends.backend_qtagg import FigureCanvas
 
 
 class ImageWindow(QDialog):
@@ -47,7 +49,9 @@ class ImageWindow(QDialog):
         self.setLayout(self.layout)
         self.exec()
 
-    def disp_image(self, class_name: str, file_path: str) -> None:
+    def disp_image(
+        self, class_name: str, file_path: Union[str, matplotlib.figure.Figure]
+    ) -> None:
         """
         Loads in the image at file_path and a corresponding text label and adds it to the layout
         Raises FileNotFoundError if image is missing
@@ -57,6 +61,8 @@ class ImageWindow(QDialog):
             file_path :  path to the file
         """
         img = QLabel()
+        if isinstance(file_path, matplotlib.figure.Figure):
+            canvas = FigureCanvas(file_path)
         if os.path.isfile(file_path):
             pixmap = QPixmap(file_path)
             pixmap = pixmap.scaled(256, 256)
@@ -77,7 +83,7 @@ class ImageWindow(QDialog):
         obj.setFont(font)
 
 
-class ImageSample(ImageWindow):
+class ImageDisp(ImageWindow):
     def __init__(self, max_cols: int = 3):
         super().__init__(max_cols)
 

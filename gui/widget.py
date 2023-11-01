@@ -3,10 +3,11 @@ import os
 
 from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox
 from PySide6.QtCore import Slot, QFile
-from imagewindow import ImageSample
-
+from imagewindow import ImageDisp
 from ui_form import Ui_Widget
 import util
+from QtToTorch import QtToTorch
+from torch.utils.data import DataLoader
 
 
 class Widget(QWidget):
@@ -14,15 +15,18 @@ class Widget(QWidget):
         super().__init__(parent)
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
-        self.ui.pushButton_selectFolder.clicked.connect(self.get_dir)
-        self.ui.pushButton_details.clicked.connect(self.details)
-        self.ui.pushButton_images.clicked.connect(self.display)
         self.ui.lineEdit_path.setReadOnly(True)
         self.ui.lineEdit_weights.setReadOnly(True)
         self.ui.lineEdit_store.setReadOnly(True)
+
+        self.ui.pushButton_selectFolder.clicked.connect(self.get_dir)
+        self.ui.pushButton_details.clicked.connect(self.details)
+        self.ui.pushButton_images.clicked.connect(self.display)
         self.ui.pushButton_weights.clicked.connect(self.get_weights)
+        self.ui.pushButton_store.clicked.connect(self.store_weights)
         self.ui.comboBox_device.currentIndexChanged.connect(self.check_cuda)
         self.ui.checkBox_pretrained.stateChanged.connect(self.checkbox)
+        self.ui.pushButton_train.clicked.connect(self.train)
 
     @Slot()
     def get_weights(self):
@@ -40,6 +44,14 @@ class Widget(QWidget):
                 QMessageBox.Ok,
             )
             self.ui.checkBox_pretrained.setChecked(False)
+
+    @Slot()
+    def store_weights(self):
+        store_path, _ = QFileDialog.getSaveFileName(
+            self, "Select path to store weights"
+        )
+        if store_path:
+            self.ui.lineEdit_store.setText(store_path)
 
     @Slot()
     def get_dir(self):
@@ -70,7 +82,7 @@ class Widget(QWidget):
     @Slot()
     def display(self):
         try:
-            imgsample = ImageSample()
+            imgsample = ImageDisp()
             path: str = self.ui.lineEdit_path.text()
             dirs: list[str] = os.listdir(path)
             for dir in dirs:
@@ -80,7 +92,6 @@ class Widget(QWidget):
                         break
             imgsample.setup_ui()
         except FileNotFoundError:
-            util.file_error()
             QMessageBox.critical(
                 self,
                 "Error",
@@ -110,6 +121,34 @@ class Widget(QWidget):
                 QMessageBox.Ok,
             )
             self.ui.lineEdit_weights.setText("")
+
+    @Slot()
+    def train(self):
+        model_name: str = self.ui.comboBox_model.currentText()
+        pretrained: bool = (
+            self.ui.checkBox_pretrained.isChecked() or self.ui.lineEdit_weights.text()
+        )
+        device: str = self.ui.comboBox_device.currentText()
+        optim: str = self.ui.comboBox_optimizer.currentText()
+
+        torch = QtToTorch(model_name, pretrained, device, optimizer=optim)
+
+        lr: float = self.ui.doubleSpinBox_lr.value()
+        num_classes: int = len(os.listdir(self.ui.lineEdit_path.text()))
+        torch.load_model(lr, num_classes)
+
+        batch_size: int = self.ui.spinBox_batch.value()
+        train_split: float = self.ui.doubleSpinBox_train.value()
+        train: DataLoader
+        test: DataLoader
+
+        train, test = torch.load_data(
+            train_split, batch_size, self.ui.lineEdit_path.text()
+        )
+
+        num_epochs: int = self.ui.spinBox_epochs.value()
+        save_path: str = self.ui.lineEdit_store.text()
+        torch.train(train, num_epochs, save_path, num_classes)
 
 
 if __name__ == "__main__":
