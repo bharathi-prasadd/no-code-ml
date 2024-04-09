@@ -1,0 +1,11 @@
+[tool.poetry]
+name = "no-code-ml"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11.<3.13"
+torch="^2.2.2"
+pyside6="^6.7.0"
